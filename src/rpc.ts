@@ -27,7 +27,8 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /**
  * Plain JSON-RPC over fetch. URLs are tried in order; rate limits and network errors are retried with a short
- * backoff. A JSON-RPC error (a revert, a bad parameter) is final and is not retried on the next URL.
+ * backoff. A revert is final. Any other JSON-RPC error (a node that refuses old blocks, an unsupported method) moves
+ * on to the next URL, and the last one is thrown.
  */
 export function httpRpc(urls: readonly string[], opts: HttpRpcOptions = {}): RpcRequest {
   if (!urls.length) throw new Error("at least one RPC URL is required");
@@ -73,7 +74,10 @@ export function httpRpc(urls: readonly string[], opts: HttpRpcOptions = {}): Rpc
             await sleep(400 * 2 ** attempt + Math.random() * 300);
             continue;
           }
-          throw new RpcError(msg, body.error.code ?? -32000, body.error.data);
+          const err = new RpcError(msg, body.error.code ?? -32000, body.error.data);
+          if (err.code === 3 || /revert/i.test(msg) || url === urls[urls.length - 1]) throw err;
+          errors.push(`${host(url)}: ${msg}`);
+          break;
         }
         return body.result;
       }

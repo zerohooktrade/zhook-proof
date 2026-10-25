@@ -32,6 +32,16 @@ describe("httpRpc", () => {
     expect(calls).toBe(1);
   });
 
+  it("moves on to the next URL when a node refuses the call", async () => {
+    const rpc = httpRpc(["https://a.example", "https://b.example"], {
+      fetch: async (url) =>
+        String(url).includes("a.")
+          ? reply(200, { jsonrpc: "2.0", id: 1, error: { code: -32000, message: "archive requests need a token" } })
+          : reply(200, { jsonrpc: "2.0", id: 1, result: "0x2" }),
+    });
+    expect(await rpc("eth_getBalance", ["0x", "0x1"])).toBe("0x2");
+  });
+
   it("reports every URL when all fail", async () => {
     const rpc = httpRpc(["https://a.example"], { retries: 0, fetch: async () => reply(503, "down") });
     await expect(rpc("eth_chainId", [])).rejects.toThrow(/a\.example: HTTP 503/);
