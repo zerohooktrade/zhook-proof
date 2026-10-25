@@ -1,5 +1,5 @@
 {
-  "name": "@zhooktrade/proof",
+  "name": "@zerohooktrade/proof",
   "version": "0.1.0",
   "description": "Proof of Execution for Robinhood Chain swaps: a spec, a verifier library and a CLI that measure a swap against the best Uniswap-only route at the same block.",
   "license": "MIT",
@@ -7,9 +7,9 @@
   "homepage": "https://docs.zerohook.trade",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zhooktrade/zhook-proof.git"
+    "url": "git+https://github.com/zerohooktrade/zhook-proof.git"
   },
-  "bugs": "https://github.com/zhooktrade/zhook-proof/issues",
+  "bugs": "https://github.com/zerohooktrade/zhook-proof/issues",
   "keywords": [
     "zerohook",
     "proof-of-execution",

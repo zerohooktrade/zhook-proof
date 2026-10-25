@@ -4,7 +4,7 @@ Proof of Execution for swaps on Robinhood Chain. Give it a transaction hash and 
 more or less than the best route made only of Uniswap pools would have paid at the same block, in bps and in USD at
 today's price.
 
-It is the open verifier behind the proof page in the [Zerohook app](https://app.zerohook.trade/proof): the same rules,
+It is the open verifier behind the proof page in the [Zerohook app](https://dapp.zerohook.trade/proof): the same rules,
 written down in [SPEC.md](./SPEC.md), so anyone can recompute a number they see there.
 
 - Reads only public RPCs. No API key, no indexer.
@@ -14,9 +14,9 @@ written down in [SPEC.md](./SPEC.md), so anyone can recompute a number they see 
 ## Install
 
 ```sh
-pnpm add @zhooktrade/proof
+pnpm add @zerohooktrade/proof
 # or run the CLI without installing
-pnpm dlx @zhooktrade/proof verify <txHash>
+pnpm dlx @zerohooktrade/proof verify <txHash>
 ```
 
 Node 20 or newer.
@@ -54,7 +54,7 @@ Exit codes: `0` measured, `1` could not be measured (the reason is printed), `2`
 ## Library
 
 ```ts
-import { verifyExecution } from "@zhooktrade/proof";
+import { verifyExecution } from "@zerohooktrade/proof";
 
 const proof = await verifyExecution("0x9953…f4eb");
 proof.verdict; // "better" | "matched" | "worse" | "no-baseline"
@@ -112,8 +112,8 @@ pnpm record <name> <txHash> "<description>"          # records a new golden vect
 ## Links
 
 - Docs: https://docs.zerohook.trade
-- App: https://app.zerohook.trade
-- Website: https://preview.zerohook.trade
+- App: https://dapp.zerohook.trade
+- Website: https://zerohook.trade
 
 ## License
 
